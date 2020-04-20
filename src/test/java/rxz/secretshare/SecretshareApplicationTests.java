@@ -1,6 +1,7 @@
 package rxz.secretshare;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import rxz.secretshare.pojo.SecretShare;
 import rxz.secretshare.core.Shamir;

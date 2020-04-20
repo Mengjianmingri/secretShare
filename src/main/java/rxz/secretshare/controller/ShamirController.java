@@ -2,14 +2,12 @@ package rxz.secretshare.controller;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import rxz.secretshare.core.Shamir;
 import rxz.secretshare.pojo.AllPublicInformation;
 import rxz.secretshare.pojo.Result;
 import rxz.secretshare.pojo.SecretShare;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
