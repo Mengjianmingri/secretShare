@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="http://121.36.40.43/blog/favicon.png" type="image/png">
+
+  <title>Mengjianmingri</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 引入样式 -->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/cover.css" rel="stylesheet">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- 引入组件库 -->
+  <link rel="stylesheet" href="/plugins/elementui/index.css">
+    <script src="js/vue.js"></script>
+    <script src="js/axios-0.18.0.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="/plugins/elementui/index.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <script src="js/ie-emulation-modes-warning.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+    <style>
+      .el-table .warning-row {
+        background: oldlace;
+      }
+
+      .el-table .success-row {
+        background: #f0f9eb;
+      }
+    </style>
+</head>
+
+  <body>
+
+    <div id="all" class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Mengjianmingri's</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="index.html">首页</a></li>
+                  <li><a href="login.html" id="app1">{{ a }}</a></li>
+                  <li><a id="app2" @click="logout()">{{ b }}</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover" v-if="flag1">
+            <img class="mb-4" src="http://121.36.40.43/blog/favicon.png" alt="" width="72" height="72">
+            <h1 class="cover-heading">开始秘密共享之旅</h1>
+            <form class="form-signin" id="form">
+              <div class="form-label-group">
+                <input v-model="secret" id="inputEmail" class="form-control" placeholder="输入你的秘密" required="" autofocus="">
+              </div>
+              <p class="mt-5 mb-3 text-muted">______________</p>
+              <div class="form-label-group">
+                <input v-model="n"  class="form-control" placeholder="请输入要将秘密分裂的个数" required="" autofocus="">
+              </div>
+              <p class="mt-5 mb-3 text-muted">______________</p>
+              <div class="form-label-group">
+                <input v-model="k"  class="form-control" placeholder="请输入你期望重构此秘密所需的子密钥个数,需小于等于上个值" required="" autofocus="">
+              </div>
+              <div class="checkbox mb-3">
+                <p class="mt-5 mb-3 text-muted">______________</p>
+              </div>
+              <div class="form-label-group">
+                <el-select v-model="value1" placeholder="请选择加密算法">
+                  <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                  </el-option>
+                </el-select>
+              </div>
+              <p class="mt-5 mb-3 text-muted">Editor :@Mengjianmingri</p>
+            </form>            <p class="lead">
+              <a class="btn btn-lg btn-success" @click="start()">Go!</a>
+            </p>
+          </div>
+          <div v-else>
+            <div v-if="flag2">
+              <template>
+                <h3 class="cover-heading">{{mes}}</h3>
+                <el-table :data="secretShares" style="width: 60%" :row-class-name="tableRowClassName">
+                  <el-table-column
+                          prop="num"
+                          label="子密钥索引"
+                          width="180">
+                  </el-table-column>
+                  <el-table-column
+                          prop="share"
+                          label="子密钥值"
+                          width="180">
+                  </el-table-column>
+                  <el-table-column
+                          prop="sel"
+                          type="selection"
+                          width="55">
+                  </el-table-column>
+                </el-table>
+                <el-button class="btn btn-lg btn btn-success" @click="rec()">重构</el-button>
+              </template>
+            </div>
+            <div v-else id="rec" style="width: 400px;height:600px;"></div>
+          </div>
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Powered by <a href="https://spring.io/projects/spring-boot">Spring Boot</a>,
+                Editor <a href="https://Renqinghe.com">@任宪章</a>,
+                My Github <a href="https://github.com/Mengjianmingri">@Mengjianmingjri</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '#all',
+        data:{
+          a: '',
+          b: '',
+          k: '',
+          n: '',
+          checkeds: [],
+          flag2: true,
+          secretShares:[],
+          flag1: true,
+          secret:'',
+          mes:'',
+          options: [{
+            value: 'shamir',
+            label: 'Shamir算法'
+          }, {
+            value: 'crt',
+            label: '中国剩余定理(CRT)'
+          }, {
+            value: 'yh',
+            label: '异或算法'
+          }, {
+            value: 'more',
+            label: '其他算法'
+          }],
+          value1: '',
+        },
+        mounted:function () {
+          var z = this;
+          var user=localStorage.getItem("username");
+          var shareFlag=localStorage.getItem("secretShares");
+          if(user==null||user===""){
+            this.a = "登录注册"
+          }else {
+            this.b = localStorage.getItem("username");
+          }
+        },
+        methods:{
+          logout(){
+            this.$confirm('确认要退出当前账户?', '登出', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              localStorage.removeItem("username");
+              localStorage.removeItem("uid");
+              window.location.href="index.html";
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '注销账户操作已取消'
+              });
+            });
+          },
+          tableRowClassName({row, rowIndex}) {
+            if (rowIndex %2=== 1) {
+              return 'warning-row';
+            } else if (rowIndex %3=== 2) {
+              return 'success-row';
+            }
+            return '';
+          },
+          start(){
+            if (this.secret==null||this.secret===""){
+              this.$message.info("秘密不能为空!")
+            }else {
+                if (this.value1==null||this.value1===""||this.k==null||this.k===""||this.n==null||this.k===""){
+                this.$message.info("请将表单填写完整!")
+              }else {
+                  if (this.value1==="shamir"){
+                    axios.post("/shamir/split?k="+this.k+"&n="+this.n+"&secret="+this.secret).then((res)=>{
+                        if (res.data.flag){
+                          console.log(res.data.data.secretShares);
+                          localStorage.setItem("secretShares",res.data.data.secretShares);
+                          this.secretShares= res.data.data.secretShares;
+                          this.mes=res.data.message;
+                          this.flag1=false;
+                        }
+                    })
+                  }else {
+                    if (this.value1==="crt"){
+                      axios.post("/secret/split",{
+                        "type":1,
+                        "secret":this.secret,
+                        "n":this.n,
+                        "t":this.k,
+                        "scheme":2
+                      }).then(()=>{
+                        window.location.href="/secret/CRTGetAll";
+                      })
+                    }
+                  }
+                }
+            }
+
+          },
+          rec(){
+            this.flag2=!this.flag2;
+          }
+        }
+      });
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

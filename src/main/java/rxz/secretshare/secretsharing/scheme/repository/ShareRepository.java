@@ -32,5 +32,8 @@ public class ShareRepository {
         }
         return shares.get(index);
     }
+    public List<Share> getShares(){
+        return INSTANCE.shares;
+    }
 
 }

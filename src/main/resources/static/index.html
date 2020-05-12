@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="http://121.36.40.43/blog/favicon.png" type="image/png">
+
+  <title>Mengjianmingri</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 引入样式 -->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/cover.css" rel="stylesheet">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- 引入组件库 -->
+  <link rel="stylesheet" href="/plugins/elementui/index.css">
+
+  <script src="js/vue.js"></script>
+  <script src="js/axios-0.18.0.js"></script>
+  <script src="/plugins/elementui/index.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <script src="js/ie-emulation-modes-warning.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body>
+
+    <div id="all" class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Mengjianmingri's</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="index.html">首页</a></li>
+                  <li><a href="login.html" id="app1">{{ a }}</a></li>
+                  <li><a id="app2" @click="logout()">{{ b }}</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <img class="mb-4" src="http://121.36.40.43/blog/favicon.png" alt="" width="72" height="72">
+            <h1 class="cover-heading">欢迎来到 Ren Xianzhang 的毕业设计</h1>
+            <p class="lead">这里是我的毕业设计,单击下方"开始"按钮来体验秘密分享,当然在这之前需要提供你的账户,单击上方"登录/注册"按钮来进行账户相关操作</p>
+            <p class="lead">
+              <a class="btn btn-lg btn-default" @click="start()">开始</a>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Powered by <a href="https://spring.io/projects/spring-boot">Spring Boot</a>,
+                Editor <a href="https://Renqinghe.com">@任宪章</a>,
+                My Github <a href="https://github.com/Mengjianmingri">@Mengjianmingjri</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '#all',
+        data:{
+          a: '',
+          b: ''
+        },
+        mounted:function () {
+          var z = this;
+          var username=localStorage.getItem("username");
+          if(username==null||username===""){
+            this.a = "登录注册"
+          }else {
+            this.b = localStorage.getItem("username");
+          }
+        },
+        methods:{
+          logout(){
+            this.$confirm('确认要退出当前账户?', '登出', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              localStorage.removeItem("username");
+              localStorage.removeItem("uid");
+              window.location.href="index.html";
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '注销账户操作已取消'
+              });
+            });
+          },
+          start(){
+            if (this.b==null||this.b===""){
+              this.$alert('带我去登录', '没有操作权限!', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  window.location.href="login.html";
+                }
+              });
+            }else {
+              window.location.href="start.html";
+            }
+          }
+        }
+      });
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

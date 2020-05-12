@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="http://121.36.40.43/blog/favicon.png" type="image/png">
+
+    <title>Mengjianmingri</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入样式 -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/cover.css" rel="stylesheet">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <link rel="stylesheet" href="/plugins/elementui/index.css">
+
+    <script src="js/vue.js"></script>
+    <script src="js/axios-0.18.0.js"></script>
+    <script src="/plugins/elementui/index.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="site-wrapper" id="all">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Mengjianmingri's</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li ><a href="index.html">首页</a></li>
+                  <li class="active"><a href="#" id="app1">{{ a }}</a></li>
+                  <li class="active"><a href="#" id="app2" @click="logout()">{{ b }}</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+<!--          <div class="inner cover">-->
+          <template>
+          <form class="form-signin">
+            <img class="mb-4" src="http://121.36.40.43/blog/favicon.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+            <div class="form-label-group">
+            <input v-model="username" id="inputEmail" class="form-control" placeholder="用户名" required="" autofocus="">
+            </div>
+            <p class="mt-5 mb-3 text-muted">______________</p>
+            <div class="form-label-group">
+            <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
+            </div>
+              <div class="checkbox mb-3">
+                <p class="mt-5 mb-3 text-muted">______________</p>
+            </div>
+            <el-button class="btn btn-lg btn-primary" @click="login()">登录</el-button>
+            <p class="mt-5 mb-3 text-muted">Editor :@Mengjianmingri</p>
+            <a  class="btn btn-lg btn btn-success" href="register.html">还没有账户?点我注册</a>
+          </form>
+          </template>
+
+<!--          </div>-->
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Powered by <a href="https://spring.io/projects/spring-boot">Spring Boot</a>,
+                Editor <a href="https://Renqinghe.com">@任宪章</a>,
+                My Github <a href="https://github.com/Mengjianmingri">@Mengjianmingjri</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '#all',
+        data:{
+          a: '',
+          username: '',
+          password: ''
+        },
+        mounted: function () {
+          var z = this;
+          var uid=localStorage.getItem("username");
+          if(uid==null||uid===""){
+            this.a = "登录注册"
+          }else {
+            this.b = localStorage.getItem("username");
+          }
+        },
+        methods:{
+          login(){
+            var the = this;
+            axios.post("/user/login?username="+this.username+"&password="+this.password ).then((res)=>{
+              if (!res.data.flag){
+                this.$message({
+                  message: res.data.message,
+                  type: "error"
+                })
+              }else {
+                if (res.data.message==="登录成功!"){
+                  localStorage.setItem("username",res.data.data.username);
+                  localStorage.setItem("uid",res.data.data.id);
+                  this.$alert('点击确定回到主页', '登录成功!', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                      window.location.href="index.html";
+                    }
+                  });
+                }else {
+                  this.$message({
+                    message: res.data.message,
+                    type: 'info'
+                  })
+                }
+              }
+            })
+          },
+          logout(){
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });
+            });
+          }
+        }
+      });
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -30,7 +30,7 @@ public class ShamirController {
             long aftTime = System.currentTimeMillis();
             prime = shamir.getPrime();
             shareList = Arrays.asList(secretShares);
-            return new Result(true,"解构成功!共耗时"+(aftTime-preTime)+"毫秒",new AllPublicInformation(shareList,k,n,prime));
+            return new Result(true,"使用Shamir算法解构成功!共耗时"+(aftTime-preTime)+"毫秒",new AllPublicInformation(shareList,k,n,prime));
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false,"解构失败!");
@@ -38,7 +38,7 @@ public class ShamirController {
 
     }
 
-    @RequestMapping("/reconstruction")
+    @RequestMapping("/reconstruct")
     public Result Reconstruction(@RequestBody AllPublicInformation information){
         int k = information.getK();
         List<SecretShare> secretShares = information.getSecretShares();

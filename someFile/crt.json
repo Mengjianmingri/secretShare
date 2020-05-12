@@ -1,0 +1,77 @@
+{
+  "type": 1,
+  "shares": [
+    {
+      "modulo": 4,
+      "value": [
+        1
+      ]
+    },
+    {
+      "modulo": 5,
+      "value": [
+        4
+      ]
+    },
+    {
+      "modulo": 7,
+      "value": [
+        4
+      ]
+    },
+    {
+      "modulo": 9,
+      "value": [
+        3
+      ]
+    },
+    {
+      "modulo": 11,
+      "value": [
+        3
+      ]
+    },
+    {
+      "modulo": 13,
+      "value": [
+        8
+      ]
+    },
+    {
+      "modulo": 17,
+      "value": [
+        16
+      ]
+    },
+    {
+      "modulo": 19,
+      "value": [
+        10
+      ]
+    },
+    {
+      "modulo": 23,
+      "value": [
+        9
+      ]
+    },
+    {
+      "modulo": 29,
+      "value": [
+        10
+      ]
+    },
+    {
+      "modulo": 673,
+      "value": [
+        495
+      ]
+    },
+    {
+      "modulo": 661,
+      "value": [
+        38
+      ]
+    }
+  ]
+}
